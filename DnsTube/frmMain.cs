@@ -209,8 +209,9 @@ namespace DnsTube
 
 		string GetPublicIpAddress(IpSupport protocol)
 		{
-			string errorMesssage;
-			var publicIpAddress = Utility.GetPublicIpAddress(protocol, httpClient, out errorMesssage);
+			string errorMesssage = null;
+			// var publicIpAddress = Utility.GetPublicIpAddress(protocol, httpClient, out errorMesssage);
+			var publicIpAddress = Utility.GetPrivateIpAddress();
 
 			// Abort if we get an error, keeping the current address in settings
 			if (publicIpAddress == null)

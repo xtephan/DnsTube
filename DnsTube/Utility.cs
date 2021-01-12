@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Net.Http;
+using System.Net.Sockets;
 using System.Text.RegularExpressions;
 using Microsoft.ApplicationInsights;
 using Newtonsoft.Json;
@@ -37,6 +39,20 @@ namespace DnsTube
 				}
 			}
 			return publicIpAddress;
+		}
+
+		public static string GetPrivateIpAddress()
+        {
+			if (!System.Net.NetworkInformation.NetworkInterface.GetIsNetworkAvailable())
+			{
+				return null;
+			}
+
+            IPHostEntry host = System.Net.Dns.GetHostEntry(System.Net.Dns.GetHostName());
+
+			return host
+				.AddressList
+				.FirstOrDefault(ip => ip.AddressFamily == AddressFamily.InterNetwork).ToString();
 		}
 
 		public static GithubRelease GetLatestRelease(TelemetryClient tc)
